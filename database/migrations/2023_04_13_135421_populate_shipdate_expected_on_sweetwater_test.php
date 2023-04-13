@@ -17,10 +17,11 @@ return new class extends Migration {
             foreach ($results as $result) {
                 if (preg_match($pattern, $result->comments, $matches)) {
                     $id = $result->orderid;
+                    $date = DateTime::createFromFormat('m/d/y', $matches[1])->format('Y/m/d');
                     $bulkUpdate .= <<<SQL
                         UPDATE sweetwater_test
                         SET
-                            shipdate_expected = '$matches[1]'
+                            shipdate_expected = '$date'
                         WHERE orderid = $id;\n
                     SQL;
                 }
